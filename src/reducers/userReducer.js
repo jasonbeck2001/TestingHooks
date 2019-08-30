@@ -1,5 +1,5 @@
 // Actions
-const UPDATE_EMAIL = 'USER.UPDATE_EMAIL';
+const UPDATE_EMAIL = 'UPDATE_EMAIL';
 
 // Initial state
 const initialState = {
@@ -12,9 +12,10 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case UPDATE_EMAIL:
+      console.log('UPDATE_EMAIL reducer hit');
       return {
         ...state,
-        email: action.payload.email,
+        email: action.payload,
       };
     case 'LOG_OUT':
       return initialState;

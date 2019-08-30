@@ -1,24 +1,22 @@
-import {useSelector, Provider} from 'react-redux';
+import {useSelector, Provider, useDispatch} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
+import addEmail from './src/reducers/userReducer';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 
 import configureStore from './src/reducers/store';
+import {isUserWhitespacable} from '@babel/types';
 const {store, persistor} = configureStore();
 
 console.log('store: ', store);
@@ -35,8 +33,15 @@ const App = () => {
 };
 
 const InnerApp = () => {
-  const email = useSelector(state => state.user.email);
+  const userEmail = useSelector(state => state.user.email);
   const state = useSelector(state => state);
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState(email);
+  const updateEmail = email =>
+    dispatch({
+      type: 'UPDATE_EMAIL',
+      payload: email,
+    });
   console.log('email: ', email);
   console.log('state: ', state);
   return (
@@ -54,32 +59,14 @@ const InnerApp = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text>{`email: ${email}`}</Text>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
+              <Text>{`email: ${userEmail}`}</Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+            <TextInput
+              style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+              onChangeText={text => setEmail(text)}
+              value={email}
+            />
+            <Button onPress={() => updateEmail(email)} title="change email" />
           </View>
         </ScrollView>
       </SafeAreaView>
