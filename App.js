@@ -26,9 +26,6 @@ import {Header} from 'react-native/Libraries/NewAppScreen';
 import configureStore from './src/reducers/store';
 const {store, persistor} = configureStore();
 
-console.log('store: ', store);
-console.log('persistor: ', persistor);
-
 const GlobalContext = createContext({});
 
 const App = () => {
@@ -48,6 +45,7 @@ const App = () => {
 
 const InnerApp = () => {
   const {appName} = useContext(GlobalContext);
+  console.log('--------------------------');
   console.log('app name from Context: ', appName);
   const userEmail = useSelector(state => state.user.email);
   const state = useSelector(state => state);
@@ -63,32 +61,38 @@ const InnerApp = () => {
 
   // useEffect w/o a 2nd param will trigger on every render.
   useEffect(() => {
+    console.log('--------------------------');
     console.log('useEffect Triggered on every render');
   });
 
   // Only trigger once on app load by passing an empty array as the 2nd param
   // Place inital API calls here
   useEffect(() => {
+    console.log('--------------------------');
     console.log('Equivalent of ComponentDidMount');
     const url = `${URL}${count}/trivia`;
-    console.log('url: ', url);
+    console.log('fetch from url: ', url);
     fetch(`${URL}${count}/trivia`)
       .then(result => result.text())
       .then(text => {
-        console.log('api text: ', text);
+        console.log('fetched api text: ', text);
         setFact(text);
       });
   }, []);
 
   // Only update when a particular element is upated.  In this case...email
   useEffect(() => {
-    console.log('email updated');
+    console.log('--------------------------');
+    console.log('useEffect for email.');
   }, [email]);
 
   // This useEffect called only when count is changed
   useEffect(() => {
+    console.log('--------------------------');
+    console.log('Updating when count is changed.');
+    console.log('Equivalent of ComponentDidUpdate');
     const url = `${URL}${count}/trivia`;
-    console.log('url: ', url);
+    console.log('fetch from url: ', url);
     fetch(`${URL}${count}/trivia`)
       .then(result => result.text())
       .then(text => {
