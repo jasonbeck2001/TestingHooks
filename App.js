@@ -1,6 +1,12 @@
 import {useSelector, Provider, useDispatch} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {
+  createContext,
+  Fragment,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import {
   Button,
   SafeAreaView,
@@ -24,19 +30,26 @@ const {store, persistor} = configureStore();
 console.log('store: ', store);
 console.log('persistor: ', persistor);
 
+const GlobalContext = createContext({});
+
 const App = () => {
+  const appName = 'Testing Hooks';
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <InnerApp />
+        <GlobalContext.Provider value={{appName}}>
+          <InnerApp />
+        </GlobalContext.Provider>
       </PersistGate>
     </Provider>
   );
 };
 
-// TODO: Add useEffect and useContext
+// TODO: What other hooks should we check out?
 
 const InnerApp = () => {
+  const {appName} = useContext(GlobalContext);
+  console.log('app name from Context: ', appName);
   const userEmail = useSelector(state => state.user.email);
   const state = useSelector(state => state);
   const dispatch = useDispatch();
@@ -50,6 +63,11 @@ const InnerApp = () => {
     });
   console.log('email: ', email);
   console.log('state: ', state);
+
+  // useEffect w/o a 2nd param will trigger on every render.
+  useEffect(() => {
+    console.log('useEffect Triggered on every render');
+  });
 
   // Only trigger once on app load by passing an empty array as the 2nd param
   // Place inital API calls here
