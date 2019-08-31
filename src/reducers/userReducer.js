@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 // Action creators
-export function addEMAIL(payload) {
+export function addEmail(payload) {
   return {type: UPDATE_EMAIL, payload};
 }
 

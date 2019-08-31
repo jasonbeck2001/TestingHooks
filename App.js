@@ -61,8 +61,6 @@ const InnerApp = () => {
       type: 'UPDATE_EMAIL',
       payload: email,
     });
-  console.log('email: ', email);
-  console.log('state: ', state);
 
   // useEffect w/o a 2nd param will trigger on every render.
   useEffect(() => {
