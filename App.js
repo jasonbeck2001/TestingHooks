@@ -70,6 +70,7 @@ const InnerApp = () => {
     console.log('email updated');
   }, [email]);
 
+  // This useEffect called only when count is changed
   useEffect(() => {
     const url = `${URL}${count}/trivia`;
     console.log('url: ', url);
