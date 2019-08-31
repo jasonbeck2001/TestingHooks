@@ -21,10 +21,9 @@ import addEmail from './src/reducers/userReducer';
 
 const URL = 'http://numbersapi.com/';
 
-import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
+import {Header} from 'react-native/Libraries/NewAppScreen';
 
 import configureStore from './src/reducers/store';
-import {isUserWhitespacable} from '@babel/types';
 const {store, persistor} = configureStore();
 
 console.log('store: ', store);
